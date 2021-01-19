@@ -9,20 +9,25 @@ public class Tuyau {
 	Case square = new Case(0,0);
 	Case end = new Case(0,0);;
 	ArrayList<Direction> directions = new ArrayList<Direction>();
+	ArrayList<Case> cases = new ArrayList<Case>();
 	public Tuyau(Case square, Case end) {
+		cases.add(square);
 		this.square = square;
 		this.end = end;
 	}
 	
 	public void modifier(Direction dir) {
-		Case derniereCase = this.calculerDerniereCase(square, directions);
+		Case derniereCase = cases.get(cases.size() - 1);
 		Case caseVoisine = derniereCase.getCaseVoisine(dir);
 		if (caseVoisine.accepteTuyau()) {
-			directions.add(dir);
+			System.out.print("test " + dir);
+			this.directions.add(dir);
+			ajouteCase(caseVoisine);
 		}
 	}
 	
 	public void ajouteCase(Case square) {
+		this.cases.add(square);
 	}
 	public int[] getCase() {
 		return new int[] {square.l,square.c} ;

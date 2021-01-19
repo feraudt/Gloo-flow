@@ -29,8 +29,8 @@ public class Panneau extends JPanel implements MouseListener {
     private static final float EPAISSEUR = 4;
     private boolean premierAffichage = true;
     private IControleur controleur;
-    private int nbLignes;
-    private int nbColonnes;
+    private static int nbLignes;
+    private static int nbColonnes;
     private int coteCase;
     private int diametrePlot;
     private int demiRayon;
@@ -152,6 +152,13 @@ public class Panneau extends JPanel implements MouseListener {
             selection = new int[] { e.getPoint().y / coteCase, e.getPoint().x / coteCase };
         }        
         repaint();
+    }
+    public static int getNbLignes() {
+    	return nbLignes;
+    }
+    
+    public static int getNbColonnes() {
+    	return nbColonnes;
     }
 
     @Override

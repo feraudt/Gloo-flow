@@ -32,12 +32,10 @@ public class Controleur implements IControleur {
         return false;
 	}
 
-	@Override
 	public int getNbLignes() {
 		return 5;
 	}
 
-	@Override
 	public int getNbColonnes() {
 		return 5;
 	}
