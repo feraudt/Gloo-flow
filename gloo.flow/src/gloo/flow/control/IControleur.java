@@ -2,7 +2,6 @@ package gloo.flow.control;
 
 import java.util.ArrayList;
 
-import gloo.flow.Case;
 import gloo.flow.model.Couleur;
 import gloo.flow.model.Direction;
 

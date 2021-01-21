@@ -55,7 +55,7 @@ public class Fenetre extends JFrame implements KeyListener {
         if( direction == null ) return;
         if( controleur.action( direction )) {
             repaint();
-            JOptionPane.showMessageDialog( this, "Vous avez gagné !" );
+            JOptionPane.showMessageDialog( this, "vous avait gagner ." );
             System.exit( 0 );
         }
         repaint();

@@ -1,6 +1,5 @@
 package gloo.flow;
 
-import gloo.flow.control.IControleur;
 import gloo.flow.hmi.Panneau;
 import gloo.flow.model.Couleur;
 import gloo.flow.model.Direction;
@@ -9,31 +8,31 @@ public class Case {
 	Plateau plateau = new Plateau(5,5);
 	public int l;
 	public int c;
+	
 	public Case(int l,int c) {
 		this.l = l;
 		this.c = c;
 	}
-	public Plot getPlot() {
-		return null;
-	}
+	
+	/** Permet de demander au plateau sa case voisine en fontion de la direction voulue */
 	public Case getCaseVoisine(Direction dir) {
 		return plateau.getMaCaseVoisine(this.l,this.c,dir);
 	}
 	
-	public Case getMaCaseVoisine(int l, int c, Direction dir) {
-		return switch (dir) {
-		case HAUT -> new Case(l-1,c);
-		case BAS -> new  Case(l+1,c);
-		case GAUCHE -> new Case(l,c-1);
-		case DROITE -> new Case(l,c+1);
-	};
-	}
+	/**  Méthode appelée quand on tente d'étendre le tuyau sur une cette case
+	 *  <ul>
+	 *  <li> Si cette case contient le début d'un plot, la requête est refusée
+	 * 	<li> Si cette case correspond à la fin d'un plot et que cette fin est différente de celle passée en paramètre, la requête est refusée
+	 *  <li> Si cette case appartient déjà à un tuyau, la requête est refusée
+	 *  </ul>
+	 * @param Case Second plot du tuyau selectionné
+	 */
 	public boolean accepteTuyau(Case fin) {
 		int maxl = Panneau.getNbLignes();
 		int maxc = Panneau.getNbColonnes();
 		for( Couleur couleur : Couleur.class.getEnumConstants() ) {
-			int[] start = couleur.getPositionPlotDepartTuyau();
-			int[] end = couleur.getPositionSecondPlot();
+			int[] start = couleur.tuyau.getCase();
+			int[] end = couleur.tuyau.getEnd();
 			if ((this.l == start[0]  && this.c == start[1])) {
 				return false;	
 			}
@@ -43,7 +42,7 @@ public class Case {
 					return false;
 				}
 			}
-			for (Direction dir:couleur.getDirections()) {
+			for (Direction dir:couleur.tuyau.directions) {
 				if (dir == Direction.HAUT){
 					start[0] -= 1;
 				} else if (dir == Direction.BAS) {
@@ -59,8 +58,5 @@ public class Case {
 			}
 		}
 		return true;
-	}
-	public boolean valideFinJeu() {
-		return false;
 	}
 }

@@ -12,7 +12,6 @@ import java.util.Arrays;
 
 import javax.swing.JPanel;
 
-import gloo.flow.Case;
 import gloo.flow.control.IControleur;
 import gloo.flow.model.Couleur;
 import gloo.flow.model.Direction;
@@ -75,11 +74,12 @@ public class Panneau extends JPanel implements MouseListener {
             setCouleurGraphique( g, couleur );
             // Affichage du premier plot
             int[] posDepart = controleur.getPositionPlotDepartTuyau( couleur );
+            int[] posArrivee = controleur.getPositionSecondPlot( couleur );
             g.fillOval( posDepart[1] * coteCase + demiRayon,
                     posDepart[0] * coteCase + demiRayon,
                     diametrePlot, diametrePlot );
             // Décoration du plot s'il est sélectionné
-            if( Arrays.equals( posDepart, selection )) {
+            if( Arrays.equals( posDepart, selection ) || Arrays.equals(posArrivee, selection)) {
                 Color c = g.getColor();
                 g.setColor( Color.BLACK );
                 Graphics2D g2 = ( Graphics2D ) g;
@@ -94,7 +94,6 @@ public class Panneau extends JPanel implements MouseListener {
             // Affichage de l'éventuel tuyau partant de ce plot
             paintDirections( g, posDepart, controleur.getDirections( couleur ));
             // Affichage du second plot
-            int[] posArrivee = controleur.getPositionSecondPlot( couleur );
             g.fillOval( posArrivee[1] * coteCase + demiRayon,
                     posArrivee[0] * coteCase + demiRayon,
                     diametrePlot, diametrePlot );

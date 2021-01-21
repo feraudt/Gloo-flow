@@ -8,14 +8,35 @@ import gloo.flow.model.Direction;
 public class Tuyau {
 	Case square = new Case(0,0);
 	Case end = new Case(0,0);;
-	ArrayList<Direction> directions = new ArrayList<Direction>();
+	public ArrayList<Direction> directions = new ArrayList<Direction>();
 	public ArrayList<Case> cases = new ArrayList<Case>();
+	
+	/**
+	 * Constructeur d'un tuyau caractérisé par
+	 * <ul>
+	 * <li> La case correspondant à son plot de départ
+	 * <li> La case correspondant au second plot qu'il doit rejoindre
+	 * <li> La liste des cases qu'il occupe (contient initialement sa case de départ)
+	 * </ul>
+	 * @param square Case de départ
+	 * @param end Case du second plot
+	 */
 	public Tuyau(Case square, Case end) {
 		cases.add(square);
 		this.square = square;
 		this.end = end;
 	}
 	
+	/**
+	 * Permet de modifier un tuyau en indiquant la direction qu'il doit prendre
+	 * <ul>
+	 * <li> Si on revient en arrière (= Si l'avant dernière case du tuyau correspond à la case voulue) : <br/>
+	 * 		La derniere case est retirée de la liste des cases du tuyau
+	 * <li> Sinon, on vérifie que la case désirée est accessible : <br/>
+	 * 		On ajoute le cas échéant la case à la liste du tuyau
+	 * </ul>
+	 * @param dir Direction à donner au tuyau
+	 */
 	public void modifier(Direction dir) {
 		Case derniereCase = cases.get(cases.size() - 1);
 		Case caseVoisine = derniereCase.getCaseVoisine(dir);
@@ -28,24 +49,50 @@ public class Tuyau {
 		}
 	}
 	
+	/**
+	 * Ajoute une case à la liste des cases du tuyau
+	 * @param square Case à ajouter
+	 */
 	public void ajouteCase(Case square) {
 		this.cases.add(square);
 	}
 	
+	/**
+	 * Retire la dernière case de la liste des cases du tuyau
+	 */
 	public void retireCase() {
 		this.cases.remove(cases.size() - 1);
 	}
 	
+	/**
+	 * Renvoie les coordonnées de la case de départ sous le format ligne/colonne
+	 * @return int[] {ligne, colonne)
+	 */
 	public int[] getCase() {
 		return new int[] {square.l,square.c} ;
 	}
+	
+	/**
+	 * Renvoie les coordonnées du second plot sous le format ligne/colonne
+	 * @return int[] {ligne, colonne)
+	 */	
 	public int[] getEnd() {
 		return new int[] {end.l, end.c};
 	}
+	
+	/**
+	 * Permet d'acceder à la liste des directions prises par le tuyau
+	 * Nécessaire au tracé du tuyau
+	 * @return int[] {ligne, colonne)
+	 */
 	public ArrayList<Direction> getDirection() {
 		return directions;
 	}
 	
+	/**
+	 * Calcule la dernière case occupée par le tuyau à partir de la liste des directions utilisées
+	 * @return int[] {ligne, colonne)
+	 */
 	public Case calculerDerniereCase(Case square,ArrayList<Direction> directions) {
 		int c = square.c;
 		int l = square.l;
@@ -63,6 +110,11 @@ public class Tuyau {
 		return new Case(l,c);
 	}
 	
+	/**
+	 * Méthode appelée par le plateau pour vérifier qu'un tuyau est complet
+	 * Si la dernière case occupée par le tuyau correspond au second plot de ce tuyau, il est complet
+	 * @return boolean
+	 */
 	public boolean verifComplet() {
 		Case derniereCase = this.cases.get(cases.size() -1);
 		if (this.end.l == derniereCase.l && this.end.c == derniereCase.c) {

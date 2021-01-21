@@ -12,10 +12,10 @@ import gloo.flow.hmi.Fenetre;
  * @version 1.1
  *
  */
-public class TestAvecControleurBouchon implements Runnable {
+public class Test implements Runnable {
 
 	public static void main( String[] args ) {
-        SwingUtilities.invokeLater( new TestAvecControleurBouchon() );
+        SwingUtilities.invokeLater( new Test() );
 	}
 
     @Override

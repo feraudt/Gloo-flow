@@ -1,7 +1,5 @@
 package gloo.flow.model;
 
-import java.util.ArrayList;
-
 import gloo.flow.Case;
 import gloo.flow.Plot;
 import gloo.flow.Tuyau;
@@ -33,29 +31,26 @@ public enum Couleur {
 	public Tuyau tuyau;
 	public Plot plot_1;
 	public Plot plot_2;
+	
+	/**
+	 * Constructeur d'une couleur qui permet d'indiquer la case de départ et le second plot de chaque couleur.
+	 * @param square
+	 * @param end
+	 */
 	private Couleur(Case square, Case end){
 		tuyau = nouveauTuyau(square,end);
 		plot_1 = new Plot(square);
 		plot_2 = new Plot(end);
 	}
 	
+	/**
+	 * Permet de créer un tuyau à partir d'une couleur et de ses propriétés
+	 * @param square
+	 * @param end
+	 * @return
+	 */
 	public Tuyau nouveauTuyau(Case square,Case end) {
 		return new Tuyau(square,end);
 	}
-	
-	public int[] getPositionPlotDepartTuyau() {
-		return this.tuyau.getCase();
-	}
-
-	public int[] getPositionSecondPlot() {
-        return this.tuyau.getEnd();
-	}
-	public Tuyau getTuyau() {
-		return this.tuyau;
-	}
-	public ArrayList<Direction> getDirections() {
-        return this.tuyau.getDirection();
-	}
-	
 	
 }
