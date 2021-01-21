@@ -12,6 +12,7 @@ import java.util.Arrays;
 
 import javax.swing.JPanel;
 
+import gloo.flow.Case;
 import gloo.flow.control.IControleur;
 import gloo.flow.model.Couleur;
 import gloo.flow.model.Direction;

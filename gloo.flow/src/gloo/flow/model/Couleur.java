@@ -3,6 +3,7 @@ package gloo.flow.model;
 import java.util.ArrayList;
 
 import gloo.flow.Case;
+import gloo.flow.Plot;
 import gloo.flow.Tuyau;
 
 /**
@@ -30,8 +31,12 @@ public enum Couleur {
 	 * être privé.
 	 */
 	public Tuyau tuyau;
+	public Plot plot_1;
+	public Plot plot_2;
 	private Couleur(Case square, Case end){
 		tuyau = nouveauTuyau(square,end);
+		plot_1 = new Plot(square);
+		plot_2 = new Plot(end);
 	}
 	
 	public Tuyau nouveauTuyau(Case square,Case end) {

@@ -3,6 +3,7 @@ package gloo.flow.control;
 import java.util.ArrayList;
 
 import gloo.flow.Case;
+import gloo.flow.Plateau;
 import gloo.flow.Tuyau;
 import gloo.flow.model.Couleur;
 import gloo.flow.model.Direction;
@@ -10,9 +11,9 @@ import gloo.flow.model.Direction;
 public class Controleur implements IControleur {
 	public Couleur selected;
 	public Case selectedSquare;
+	public Plateau plateau = new Plateau(5,5);
 	@Override
 	public boolean selectionCase(int ligne, int colonne) {
-        System.out.println("clic en l" + ligne + "c" + colonne);
         for( Couleur couleur : Couleur.class.getEnumConstants() ) {
         	int[] pos = getPositionPlotDepartTuyau(couleur);
         	if (pos[0]==ligne && pos[1]==colonne) {
@@ -26,9 +27,9 @@ public class Controleur implements IControleur {
 
 	@Override
 	public boolean action(Direction direction) {
-        System.out.println("flèche " + direction.name());
         Tuyau tuyau = selected.getTuyau();
         tuyau.modifier(direction);
+        System.out.println("Test final -- " +plateau.plateauComplet2());
         return false;
 	}
 

@@ -7,8 +7,8 @@ import gloo.flow.model.Direction;
 
 public class Case {
 	Plateau plateau = new Plateau(5,5);
-	int l;
-	int c;
+	public int l;
+	public int c;
 	public Case(int l,int c) {
 		this.l = l;
 		this.c = c;
@@ -28,13 +28,20 @@ public class Case {
 		case DROITE -> new Case(l,c+1);
 	};
 	}
-	public boolean accepteTuyau() {
+	public boolean accepteTuyau(Case fin) {
 		int maxl = Panneau.getNbLignes();
 		int maxc = Panneau.getNbColonnes();
 		for( Couleur couleur : Couleur.class.getEnumConstants() ) {
 			int[] start = couleur.getPositionPlotDepartTuyau();
-			if (this.l == start[0]  && this.c == start[1]) {
-				return false;
+			int[] end = couleur.getPositionSecondPlot();
+			if ((this.l == start[0]  && this.c == start[1])) {
+				return false;	
+			}
+			
+			if ((fin.l == end[0] && fin.c == end[1]) == false){
+				if (this.l == end[0]  && this.c == end[1]) {
+					return false;
+				}
 			}
 			for (Direction dir:couleur.getDirections()) {
 				if (dir == Direction.HAUT){

@@ -9,7 +9,7 @@ public class Tuyau {
 	Case square = new Case(0,0);
 	Case end = new Case(0,0);;
 	ArrayList<Direction> directions = new ArrayList<Direction>();
-	ArrayList<Case> cases = new ArrayList<Case>();
+	public ArrayList<Case> cases = new ArrayList<Case>();
 	public Tuyau(Case square, Case end) {
 		cases.add(square);
 		this.square = square;
@@ -19,8 +19,10 @@ public class Tuyau {
 	public void modifier(Direction dir) {
 		Case derniereCase = cases.get(cases.size() - 1);
 		Case caseVoisine = derniereCase.getCaseVoisine(dir);
-		if (caseVoisine.accepteTuyau()) {
-			System.out.print("test " + dir);
+		if (cases.size()>1 && caseVoisine.c == cases.get(cases.size()-2).c && caseVoisine.l == cases.get(cases.size()-2).l ) {
+			this.directions.remove(this.directions.size()-1);
+			retireCase();
+		} else if (caseVoisine.accepteTuyau(end)) {
 			this.directions.add(dir);
 			ajouteCase(caseVoisine);
 		}
@@ -29,6 +31,11 @@ public class Tuyau {
 	public void ajouteCase(Case square) {
 		this.cases.add(square);
 	}
+	
+	public void retireCase() {
+		this.cases.remove(cases.size() - 1);
+	}
+	
 	public int[] getCase() {
 		return new int[] {square.l,square.c} ;
 	}
@@ -54,5 +61,13 @@ public class Tuyau {
 			}
 		}
 		return new Case(l,c);
+	}
+	
+	public boolean verifComplet() {
+		Case derniereCase = this.cases.get(cases.size() -1);
+		if (this.end.l == derniereCase.l && this.end.c == derniereCase.c) {
+			return true;
+		}
+		return false;
 	}
 }
