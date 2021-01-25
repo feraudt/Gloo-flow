@@ -8,10 +8,21 @@ import gloo.flow.Tuyau;
 import gloo.flow.model.Couleur;
 import gloo.flow.model.Direction;
 
+import java.io.File;  // Import the File class
+import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.util.Scanner; // Import the Scanner class to read text files
+
 public class Controleur implements IControleur {
 	public Couleur selected;
 	public Case selectedSquare;
 	public Plateau plateau = new Plateau(5,5);
+	public int nbLignes;
+	public int nbColonnes;
+	
+	public Controleur(int l,int c) {
+		this.nbLignes = l ;
+		this.nbColonnes = c; 
+	}
 	
 	@Override
 	public boolean selectionCase(int ligne, int colonne) {
@@ -40,11 +51,11 @@ public class Controleur implements IControleur {
 	}
 	
 	public int getNbLignes() {
-		return 5;
+		return this.nbLignes;
 	}
 
 	public int getNbColonnes() {
-		return 5;
+		return this.nbColonnes;
 	}
 
 	@Override

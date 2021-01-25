@@ -1,0 +1,11 @@
+#### Nombre de lignes ####
+l=6
+#### Nombre de colonnes ####
+c=6
+#### Position des plots de départ et d'arrivée ####
+rouge_=0,0;4,4
+orange=0,5;4,3
+bleu__=1,2;2,2
+vert__=0,2;3,2
+jaune_=0,4;2,3
+

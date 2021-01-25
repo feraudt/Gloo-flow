@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import gloo.flow.control.Controleur;
 import gloo.flow.control.IControleur;
 import gloo.flow.model.Direction;
 
@@ -55,7 +56,7 @@ public class Fenetre extends JFrame implements KeyListener {
         if( direction == null ) return;
         if( controleur.action( direction )) {
             repaint();
-            JOptionPane.showMessageDialog( this, "vous avait gagner ." );
+            JOptionPane.showMessageDialog( this, "Vous avez gagné !" );
             System.exit( 0 );
         }
         repaint();

@@ -1,5 +1,9 @@
 package gloo.flow;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 import javax.swing.SwingUtilities;
 
 import gloo.flow.control.Controleur;
@@ -20,6 +24,28 @@ public class Test implements Runnable {
 
     @Override
     public void run() {
-        new Fenetre( new Controleur() );
+    	int nbLignes = 0;
+    	int nbColonnes = 0;
+		try {
+		      File myObj = new File("src/level.txt");
+		      Scanner myReader = new Scanner(myObj);
+		      while (myReader.hasNextLine()) {
+		        String data = myReader.nextLine();
+		        if (data.length()!=0) {
+			        if (data.charAt(0)=='l') {
+			        	nbLignes = Integer.parseInt((data.substring(2)));
+			        }
+			        if (data.charAt(0)=='c') {
+			        	nbColonnes = Integer.parseInt((data.substring(2)));
+			        }
+		        }
+		      }
+		      
+		      myReader.close();
+		    } catch (FileNotFoundException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
+        new Fenetre( new Controleur(nbLignes,nbColonnes) );
     }
 }

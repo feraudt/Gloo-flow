@@ -1,5 +1,9 @@
 package gloo.flow.model;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 import gloo.flow.Case;
 import gloo.flow.Plot;
 import gloo.flow.Tuyau;
@@ -11,12 +15,12 @@ import gloo.flow.Tuyau;
  * @version 1.1
  *
  */
-public enum Couleur {
-	ROUGE(new Case(0,0),new Case(4,1)),
-	ORANGE(new Case(1,4), new Case(4,3)),
-	BLEU(new Case(1,2),new Case(4,2)),
-	VERT(new Case(0,2),new Case(3,1)),
-	JAUNE(new Case(0,4),new Case(3,3));
+public enum Couleur { 
+	ROUGE("rouge"),
+	ORANGE("orange"),
+	BLEU("bleu"),
+	VERT("vert"),
+	JAUNE("jaune");
 	
 	/*
 	 * Il est IMPORTANT de noter qu'une énumération en Java est 
@@ -37,7 +41,31 @@ public enum Couleur {
 	 * @param square
 	 * @param end
 	 */
-	private Couleur(Case square, Case end){
+	private Couleur(String couleur){
+		int l_1 = 0;
+		int l_2 = 0;
+		int c_1 = 0;
+		int c_2 = 0;
+		try {
+		      File myObj = new File("src/level.txt");
+		      Scanner myReader = new Scanner(myObj);
+		      while (myReader.hasNextLine()) {
+		        String data = myReader.nextLine();
+		        if (data.length()!=0 && (data.charAt(0) == couleur.charAt(0))) {
+			        l_1 = Character.getNumericValue(data.charAt(7));
+			        l_2 = Character.getNumericValue(data.charAt(11));
+			        c_1	= Character.getNumericValue(data.charAt(9));
+			        c_2 = Character.getNumericValue(data.charAt(13));
+		        }
+		      }
+		      
+		      myReader.close();
+		    } catch (FileNotFoundException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
+		Case square = new Case(l_1,c_1);
+		Case end = new Case(l_2,c_2);
 		tuyau = nouveauTuyau(square,end);
 		plot_1 = new Plot(square);
 		plot_2 = new Plot(end);
