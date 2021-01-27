@@ -1,0 +1,47 @@
+@startuml
+
+hide footbox
+
+title "Comportement attendu - séquence"
+
+actor Player
+boundary IHM
+collections Program
+
+== Game initialization ==
+
+Player -> IHM : New game
+activate IHM
+IHM -> Program : Start new game
+activate Program
+Program -> Program : New board loaded
+IHM <- Program : Display board
+deactivate Program
+deactivate IHM
+
+== Gameplay ==
+
+Player -> IHM : Select plot
+activate IHM
+IHM -> Program : Communicate selected plot case and color
+activate Program
+Program -> Program : Start tube from selected case and color
+IHM <- Program : Circle selected plot
+deactivate Program
+deactivate IHM
+Player -> IHM : Enter direction
+activate IHM
+IHM -> Program : Ask extension of current tube in selected direction
+activate Program
+Program -> Program : Check if extension or shortening
+Program -> Program : If shortening, reduce tube
+Program -> Program : If extension, verify possibility and extend
+Program -> Program : Check if tube is complete
+Program -> Program : Check if game won
+IHM <- Program : Display changes
+deactivate Program
+IHM -> IHM : If won, display end screen
+deactivate IHM
+
+
+@enduml

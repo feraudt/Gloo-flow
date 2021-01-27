@@ -1,0 +1,113 @@
+@startuml
+
+title "Diagramme de classes - Flow"
+
+top to bottom direction
+
+interface Controleur {
++ Couleur selectedColor
++ Case selectedSquare
++ Plateau board
++ int nbLignes
++ int nbColonnes
++ boolean selectionCase(int ligne, int colonne)
++ boolean action(Direction dir)
++ int[] getPositionPlotDepartTuyau(Couleur color)
++ int[] getPositionSecondPlot(Couleur color)
++ ArrayList<Direction> getDirections(Couleur color)
+}
+
+class Plateau {
++ int nbLignes
++ int nbColonnes
++ Case getMaCaseVoisine(int l, int c, Direction dir)
++ boolean plateauComplet()
+}
+
+class Case {
+Plateau board
++ int ligne
++ int colonne
++ Case getCaseVoisine(Direction dir)
++ boolean accepteTuyau(Case end)
+}
+
+class Plot {
++ Case square
+}
+
+class Tuyau {
+Case square
+Case end
++ ArrayList<Direction> directions
++ ArrayList<Case> cases
++ void modifier(Direction dir)
++ void ajouteCase(Case square)
++ void retireCase()
++ int[] getCase()
++ int[] getEnd()
++ Case calculerDerniereCase(Case square, ArrayList<Direction> directions)
++ boolean verifComplet()
+}
+
+enum Couleur {
+rouge
+jaune
+vert
+bleu
+orange
++ Tuyau tube
++ Plot p1
++ Plot p2
++ Tuyau nouveauTuyau(Case square,Case end)
+}
+
+enum Direction {
+HAUT
+BAS
+GAUCHE
+DROITE
+}
+
+interface Panneau {
+- float EPAISSEUR
+- boolean premierAffichage = true
+- IControleur controller
+- static int nbLignes
+- static int nbColonnes
+- int coteCase
+- int diametrePlot
+- int demiRayon
+- int largeurTuyau
+- int arcRoundRect
+- int[] selection
+- void calculeParametres()
++ void paint(Graphics g)
+- void paintDirections(Graphics g, int[] posDepart, ArrayList<Direction> directions)
+- void setCouleurGraphique(Graphics g, Couleur c)
++ void mouseClicked(MouseEvent e)
+}
+
+interface Fenetre {
++ int COTE_FENETRE
+- int HAUTEUR_BARRE_FENETRE
+- IControleur controller
++ void keyPressed(KeyEvent e)
+}
+
+class Test {
++ run()
+}
+
+Controleur "1"--"1" Plateau
+Controleur "1"--"0..1" Case : selectedCase
+Controleur "1"--"0..1" Couleur : selectedColor
+Plateau "1"*--"1..*" Case
+Case "1"--"0..1" Plot
+Plot "2"--"1" Couleur
+Case "1..*"--"0..1" Tuyau
+Tuyau "1"--"1" Couleur
+Controleur "1"--"1" Fenetre
+Controleur "1"--"1" Panneau
+
+@enduml

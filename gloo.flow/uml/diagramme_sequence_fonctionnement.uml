@@ -1,0 +1,96 @@
+@startuml
+
+hide footbox
+
+title "Fonctionnement interne - séquence"
+
+boundary IHM
+
+== New Game ==
+
+Controleur -> Plateau : new Plateau(dimensions)
+
+== Select plot ==
+
+IHM -> Controleur : selectionCase(ligne, colonne)
+activate Controleur
+
+loop color : Couleur
+Controleur -> Couleur : color
+Couleur -> Tuyau : color.tuyau.getCase()
+activate Tuyau
+Controleur <- Tuyau : caseDepart
+deactivate Tuyau
+Controleur -> Couleur : color
+Couleur -> Tuyau : color.tuyau.getEnd()
+activate Tuyau
+Controleur <- Tuyau : caseFin
+deactivate Tuyau
+Controleur -> Controleur : Check if plot
+
+alt no plot on case
+IHM <- Controleur : false
+else plot on case
+Controleur -> Controleur : set current color and case
+IHM <- Controleur : true
+end
+deactivate Controleur
+
+== Extend tube ==
+
+IHM -> Controleur : action(direction)
+
+activate Controleur
+Controleur -> Couleur : selectedColor
+Couleur -> Tuyau : selectedColor.tuyau.modifier(direction)
+
+activate Tuyau
+Tuyau -> Case : derniereCase.getCaseVoisine(direction)
+
+activate Case
+Tuyau <- Case : caseVoisine
+deactivate Case
+
+alt caseVoisine is the previous case of the tube
+Tuyau -> Tuyau : retireCase()
+else caseVoisine is left, right or in front of the tube
+Tuyau -> Case : caseVoisine.accepteTuyau(direction)
+
+activate Case
+
+loop color : Couleur
+Couleur <- Case : color
+Couleur -> Tuyau : color.tuyau.getCase()
+activate Tuyau
+Tuyau -> Case : caseStart
+deactivate Tuyau
+Couleur <- Case : color
+Couleur -> Tuyau : color.tuyau.getEnd()
+activate Tuyau
+Tuyau -> Case : caseEnd
+deactivate Tuyau
+
+loop dir : color.tuyau.directions
+Case -> Case : Check if caseVoisine is already part of a tube or out of the board
+end
+end
+
+alt Tube rejected
+Tuyau <- Case : false
+else Tube accepted
+Tuyau <- Case : true
+deactivate Case
+Tuyau -> Tuyau : ajouteCase(caseVoisine)
+end
+end
+deactivate Tuyau
+
+alt plateauComplet()
+IHM <- Controleur : print "You won!"
+IHM <- Controleur : true
+else not plateauComplet()
+IHM <- Controleur : false
+end
+deactivate Controleur
+
+@enduml
